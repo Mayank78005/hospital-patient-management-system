@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 100
+
+// ------------------- Linked List for Patient Records -------------------
+
+typedef struct Patient {
+    int id;
+    char name[100];
+    int age;
+    int severity; // 1 to 10 (10 = most severe)
+    struct Patient* next;
+} Patient;
+
+Patient* head = NULL;
+
+// Add patient to linked list
+void addPatient(int id, char name[], int age, int severity) {
+    Patient* newPatient = (Patient*)malloc(sizeof(Patient));
+    newPatient->id = id;
+    strcpy(newPatient->name, name);
+    newPatient->age = age;
+    newPatient->severity = severity;
+    newPatient->next = head;
+    head = newPatient;
+}
+
+// View all patients
+void viewPatients() {
+    Patient* temp = head;
+    printf("\nPatient Records:\n");
+    while (temp != NULL) {
+        printf("ID: %d, Name: %s, Age: %d, Severity: %d\n", temp->id, temp->name, temp->age, temp->severity);
+        temp = temp->next;
+    }
+}
+
+// ------------------- Heap for Emergency Priority -------------------
+
+typedef struct Heap {
+    Patient* heap[MAX];
+    int size;
+} Heap;
+
+Heap emergencyQueue;
+
+void swap(Patient** a, Patient** b) {
+    Patient* temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void insertEmergency(Patient* p) {
+    int i = emergencyQueue.size++;
+    emergencyQueue.heap[i] = p;
+    while (i > 0 && emergencyQueue.heap[i]->severity > emergencyQueue.heap[(i - 1) / 2]->severity) {
+        swap(&emergencyQueue.heap[i], &emergencyQueue.heap[(i - 1) / 2]);
+        i = (i - 1) / 2;
+    }
+}
+
+Patient* extractMaxSeverity() {
+    if (emergencyQueue.size == 0) return NULL;
+
+    Patient* top = emergencyQueue.heap[0];
+    emergencyQueue.heap[0] = emergencyQueue.heap[--emergencyQueue.size];
+
+    int i = 0;
+    while (2 * i + 1 < emergencyQueue.size) {
+        int maxIndex = i;
+        int left = 2 * i + 1, right = 2 * i + 2;
+        if (left < emergencyQueue.size && emergencyQueue.heap[left]->severity > emergencyQueue.heap[maxIndex]->severity)
+            maxIndex = left;
+        if (right < emergencyQueue.size && emergencyQueue.heap[right]->severity > emergencyQueue.heap[maxIndex]->severity)
+            maxIndex = right;
+        if (maxIndex == i) break;
+        swap(&emergencyQueue.heap[i], &emergencyQueue.heap[maxIndex]);
+        i = maxIndex;
+    }
+
+    return top;
+}
+
+// ------------------- Graph for Department Routing -------------------
+
+int graph[MAX][MAX];
+int numDepartments = 0;
+
+void addDepartmentEdge(int from, int to) {
+    graph[from][to] = 1;
+    graph[to][from] = 1;
+}
+
+void displayGraph() {
+    printf("\nHospital Department Connections:\n");
+    for (int i = 0; i < numDepartments; i++) {
+        printf("Dept %d: ", i);
+        for (int j = 0; j < numDepartments; j++) {
+            if (graph[i][j]) printf("-> %d ", j);
+        }
+        printf("\n");
+    }
+}
+
+// ------------------- Main -------------------
+
+int main() {
+    emergencyQueue.size = 0;
+
+    addPatient(1, "Alice", 30, 8);
+    addPatient(2, "Bob", 40, 5);
+    addPatient(3, "Charlie", 60, 9);
+
+    // Emergency Queue insert
+    insertEmergency(head);
+    insertEmergency(head->next);
+    insertEmergency(head->next->next);
+
+    viewPatients();
+
+    Patient* emergency = extractMaxSeverity();
+    if (emergency) {
+        printf("\nEmergency Case:\n");
+        printf("ID: %d, Name: %s, Severity: %d\n", emergency->id, emergency->name, emergency->severity);
+    }
+
+    // Graph sample
+    numDepartments = 4;
+    addDepartmentEdge(0, 1);
+    addDepartmentEdge(1, 2);
+    addDepartmentEdge(2, 3);
+    displayGraph();
+
+    return 0;
+}
