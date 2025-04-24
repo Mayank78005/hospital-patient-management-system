@@ -1,0 +1,35 @@
+Abstract:
+The Hospital Patient Management System is a project aimed at managing the patients admitted to a hospital. The system ensures that patients are prioritized based on the severity of their condition, using data structures such as Queue, Linked List, and Heap Tree to efficiently manage patient records. The Queue is utilized to manage the order in which patients are admitted to the hospital. The Linked List structure is used to store patient data dynamically, allowing easy insertion and deletion of patient records. The Heap Tree is used to handle patients based on their condition’s priority.
+In this system:
+Patients with Critical conditions are given the highest priority, followed by those with Emergency conditions, and finally, Normal patients.
+The Queue ensures that patients are processed in the order they are admitted.
+The Heap Tree (Min-Heap) helps in prioritizing treatment based on their condition.
+This system improves hospital efficiency by organizing patients in an optimal manner and ensuring that the most critical patients are treated first
+Project Report:
+1. Introduction:
+The Hospital Patient Management System is developed to address the issue of managing patient data in hospitals in an efficient and organized manner. The system uses different data structures like Queue, Linked List, and Heap Tree to streamline patient admission, prioritization, and processing. This system is useful in situations where multiple patients require treatment simultaneously, and there is a need for prioritizing the most critical cases.
+2. Problem Statement:
+In a hospital environment, especially in an emergency department, managing patient records and determining the order of treatment can be overwhelming. Without proper prioritization, critical patients may be delayed, leading to adverse outcomes. This system aims to:
+Automate patient admission.
+Prioritize patients based on the severity of their condition.
+Ensure proper management of the hospital's waiting list
+. Objective:
+To design and implement a Hospital Patient Management System that uses advanced data structures (Queue, Linked List, and Heap Tree).
+To prioritize patients based on the severity of their condition (Critical > Emergency > Normal).
+To handle patient data dynamically and efficiently.
+4. Methodology:
+The design of the system involves the following steps:
+Queue is used for managing the incoming patients to simulate patient admission in the hospital.
+Linked List stores patient details, which include patient ID, name, condition, and contact information. This allows dynamic management of records.
+Heap Tree (Min-Heap) is used for prioritizing patients based on their condition. The higher priority patients (e.g., Critical patients) are processed first.   
+Flowchart:
+Queue Operations: When a patient arrives, they are enqueued. When a patient is treated, they are dequeued.
+Heap Tree Operations: Patients are added to the heap based on their condition priority. The heap ensures that the patient with the highest priority is treated first.
+Linked List Operations: Every patient admitted to the hospital is added to the linked list for storage and easy access.
+. System Design:
+The system is designed using the following data structures:
+Queue: A first-in-first-out (FIFO) structure is used to manage patients waiting for treatment.
+Linked List: Each node contains patient details (ID, name, condition, priority).
+Heap Tree: A min-heap structure that ensures the patient with the highest priority (Critical) is treated first.
+The Heap Tree is implemented to sort the patients based on their condition. The tree ensures that once the treatment of the highest priority patient is completed, the next highest priority patient is processed next.
+
